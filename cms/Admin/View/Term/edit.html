@@ -1,0 +1,33 @@
+<include file="Common:header"/>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<a href="__CONTROLLER__" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> 返回</a>
+				<hr>
+				<div class="panel panel-default panel-sm">
+					<div class="panel-heading">编辑分类</div>
+					<div class="panel-body">
+						<form role="form" action="" method="post">
+							<div class="form-group">
+								<label for="term-name">分类名:</label>
+								<input type="text" class="form-control" name="term_name" required value="{$term.name}">
+							</div>
+							<div class="form-group">
+								<label for="term-slug">别名：</label>
+								<input class="form-control" name="term_slug" value="{$term.slug}">
+								<p class="help-block">别名应当是字母、数字、横线；<br>如：news 或 whats-new ；<br><span class="text-danger">更改别名可能导致以前的链接无法使用!</span></p>
+							</div>
+							<div class="form-group">
+								<label>
+									<input type="checkbox" name="term_group" value="1" <eq name="term.term_group" value="1">checked="checked"</eq> > 在导航栏显示
+								</label>
+							</div>
+							<button class="btn btn-block btn-success">保存</button>
+							<a href="__CONTROLLER__/remove/id/{$term.term_id}" class="btn btn-danger btn-block">删除</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- /container -->	
+<include file="Common:footer"/>

@@ -1,0 +1,108 @@
+<include file="Common:header"/>
+	<div class="container">
+		<form role="form" action="__CONTROLLER__/doSave" method="post">
+		<div class="row">
+
+			<div class="col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">添加分类</div>
+					<div class="panel-body">
+							<div class="form-group">
+								<label for="term-name">类名</label>
+								<input type="text" class="form-control" required name="name">
+								<p class="help-block">这将是显示在分类列表或者站点上的名字。</p>
+							</div>
+							<div class="form-group">
+								<label for="term-slug">别名</label>
+								<input class="form-control" name="slug">
+								<p class="help-block">“别名”是在 URL 中使用的别称，它可以令 URL 更美观。通常使用小写，只能包含字母，数字和连字符（-）。<br>如：news 或 whats-new ；</p>
+							</div>
+							<div class="form-group">
+								<label for="term-slug">父级</label>
+								<select name="parent" class="form-control">
+									<option value="">无</option>
+									<volist name="categorise" id="vo">
+										<option value="{$vo.id}" class="option-level-{$vo.level}" 
+
+										<eq name="vo.id" value="$parent"> selected="selected" </eq>
+
+										 >{$vo.name}</option>
+									</volist>
+								</select>
+								<p class="help-block">
+								分类可以有自己的层级关系，每一个分类可以包含多个子分类。在设置的时候只需要选择“父级”，就可以作为“父级”的子分类了。</p>
+							</div>
+							<div class="form-group">
+								<label for="term-slug">描述</label>
+								<textarea class="form-control" name="description"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="term-slug">跳转到下面链接</label>
+								<input class="form-control" name="redirect">
+								<p class="help-block">访问该页面时将跳转到另外一个链接地址，留空则不跳转<br>如：http://jianbo.me</p>
+							</div>
+							<div class="form-group">
+								<label for="term-slug">封面</label>
+								<div class="file-view">
+									<div id="cover-box" class="cover">
+										<neq name="post.cover" value="">
+											<button type="button" class="close clear-cover">&times;</button>
+											<img src="__ROOT__/{$post.cover}">
+										<else/>
+										<div id="progress" class="progress">
+											<div class="progress-bar progress-bar-info progress-bar-striped"></div>
+										</div>
+										 </neq>
+									</div>
+								</div>
+								<span class="btn btn-default btn-block btn-lg fileinput-button">
+									<i class="glyphicon glyphicon-open"></i>
+									<span> 上传图片</span>
+									<input id="fileupload" type="file" name="files" >
+								</span>
+							</div>
+							<button class="btn btn-block btn-success">添加</button>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div> <!-- /container -->	
+
+	<!-- File upload js here-->
+<link rel="stylesheet" href="__STATIC__/css/jquery.fileupload.css">
+<script src="__STATIC__/js/vendor/jquery.ui.widget.js"></script>
+<script src="__STATIC__/js/jquery.iframe-transport.js"></script>
+<script src="__STATIC__/js/jquery.fileupload.js"></script>
+<script>
+$(function () {
+	'use strict';
+	var url = '__APP__/Admin/Upload/jqueryImageUpload';
+
+	//清除封面
+	$('#cover-box').on('click','.clear-cover',function(){
+		$('#cover-box').html('');
+	});
+
+	$('#fileupload').fileupload({
+		url: url,
+		dataType: 'json',
+		done: function (e, data) {
+					var html = 	'<button type="button" class="close clear-cover">&times;</button>';
+						html += '<img src="__ROOT__/'+data.result.file.url+'">';
+						html += '<input type="hidden" name="cover" value="'+data.result.file.url+'">';
+					$('#cover-box').html(html);
+				},
+		progressall: function (e, data) {
+						var progress = parseInt(data.loaded / data.total * 100, 10);
+						$('#progress .progress-bar').css('width',progress + '%').text(progress+'%');
+					}
+					}).prop('disabled', !$.support.fileInput)
+					.parent().addClass($.support.fileInput ? undefined : 'disabled');
+				}
+
+
+	);
+</script>
+<include file="Common:footer"/>

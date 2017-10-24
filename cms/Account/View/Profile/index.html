@@ -1,0 +1,36 @@
+<include file="Common:header"/>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+
+				<div class="panel panel-default panel-sm">
+					<div class="panel-heading">我的账户</div>
+					<div class="panel-body">
+						<form role="form" action="__CONTROLLER__/doEdit" method="post">
+							<div class="form-group">
+								<label for="term-name">邮箱:<span class="text-muted"></span></label>
+								<input type="email" class="form-control" disabled value="{$profile.user_email}">
+							</div>
+							<div class="form-group">
+								<label for="term-slug">密码：</label>
+								<input type="password" class="form-control" name="password" value="">
+								<p class="help-block">密码长度不能小于6位<br>留空则表示不重置密码。</p>
+							</div>
+							<div class="form-group">
+								<label for="term-name">名字:(必填)</label>
+								<input type="text" class="form-control" name="display_name" required value="{$profile.display_name}">
+								<p class="help-block">名字长度不能小于2位</p>
+							</div>
+							<eq name="profile.user_group" value="1">
+							<div class="form-group">
+								<label>管理员</label>
+							</div>
+							</eq>
+							<button class="btn btn-block btn-success">保存</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- /container -->	
+<include file="Common:footer"/>

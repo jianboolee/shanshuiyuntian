@@ -1,0 +1,18 @@
+<include file="Common:header"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog.css">
+  <div class="container">
+	<div class="blog-post">
+		<article>
+			<h2 class="blog-post-title">{$post['post_title']}</h2>
+			<p class="blog-post-meta">
+				<a href="__CONTROLLER__/edit/id/{$post.post_id}" class="">编辑</a>
+				| 时间：{$post.post_date} | 发布者：{$post.post_author_name}
+				
+			</p>
+			<neq name="post.post_cover" value=""><p class="text-center"><img src="__ROOT__/{$post.post_cover}" class="img-rounded img-responsive"></p></neq>
+			{$post.post_content}
+		</article>
+
+	</div>
+  </div> <!-- /container -->  
+<include file="Common:footer"/>

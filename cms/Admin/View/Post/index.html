@@ -1,0 +1,114 @@
+<include file="Common:header"/>
+	<div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<form class="form-inline" action="__CONTROLLER__/index" method="GET" role="form">
+			<div class="form-group">
+				<a href="__CONTROLLER__/add" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> 发布内容</a>
+			</div>
+			<div class="form-group">
+				<select name="status" class="form-control">
+					<option value="publish" <eq name="param['status']" value="publish"> selected="selected" </eq> >已发布</option>
+					<option value="draft" <eq name="param['status']" value="draft"> selected="selected" </eq> >草稿箱</option>
+					<option value="trash" <eq name="param['status']" value="trash"> selected="selected" </eq> >回收站</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<select name="category" class="form-control">
+					<option value="">全部分类</option>
+					<volist name="category" id="vo">
+						<option value="{$vo.id}" class="option-level-{$vo.level}" <eq name="vo.id" value="$param['category']"> selected="selected" </eq> >{$vo.html}{$vo.name}</option>
+					</volist>
+				</select>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-default">筛选</button>
+			</div>
+		</form>
+		</div>
+		<div class="col-sm-6">
+			<form class="form-inline pull-right" action="__CONTROLLER__/index" method="GET" role="form">
+				<div class="form-group">
+					<div class="input-group">
+						<input type="text" name="title" id="search-input" placeholder="搜索标题" class="form-control" value="{$param.title}">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit" ><i class="text-muted glyphicon glyphicon-search"></i></button>
+						</span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<hr>
+	</div>
+
+	<div class="container">
+	<form action="__CONTROLLER__/doReset" method="POST">
+		<div class="form-inline  mb-10">
+			<div class="form-group">
+				<select name="status" class="form-control">
+					<option value="">批量操作</option>
+					<option value="publish">发布</option>
+					<option value="draft">草稿</option>
+					<option value="trash">回收站</option>
+					<option value="delete">删除</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-default">应用</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<table class="table table-hover post-list">
+					<thead>
+						<tr>
+							<th class="td-xs text-center"><label><input type="checkbox" select-all="[name='id[]']"></label></th>
+							<th class="text-muted">标题</th>
+							<th class="td-sm text-muted">发布时间</th>
+							<th class="td-sm text-muted">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="posts" id="vo">
+						<tr>
+							<td class="text-center"><label><input type="checkbox" name="id[]" value="{$vo.id}"></label></td>
+							<td>{$vo.title}</td>
+							<td>
+								{$vo.date }
+							</td>
+							<td>
+							<div class="btn-group">
+								<a href="__CONTROLLER__/edit/id/{$vo.id}" class="btn">编辑</a>
+							</div>
+							</td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+				
+			</div>
+		</div>
+	</form>
+	<div class="text-center">
+		<div class="btn-group">{$page}</div>
+	</div>
+</div> <!-- /container -->  
+
+<script type="text/javascript">
+	//全选 checkbox
+	$(document).ready(function(){
+		$('[select-all]').change(function(){
+			var isSelectAll = $(this).prop("checked");
+			$target = $($(this).attr('select-all'));
+			$target.prop("checked", isSelectAll)
+		});
+
+		$('[clear-value]').click(function(){
+			$target = $($(this).attr('clear-value'));
+			$target.val('');
+		});
+	});
+</script>
+
+<include file="Common:footer"/>

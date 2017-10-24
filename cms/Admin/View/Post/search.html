@@ -1,0 +1,34 @@
+<include file="Common:header"/>
+  <div class="container">
+	<div class="pull-right">
+		{$page}
+	</div>
+	<h4>搜索结果：</h4>
+  	<hr>
+  	
+	<table class="table table-hover table-bordered post-list">
+		<tbody>
+			<volist name="posts" id="vo">
+			<tr>
+				<td>
+					
+					<a href="__CONTROLLER__/preview/id/{$vo.post_id}" class="text-default">
+						<strong>{$vo.post_title}</strong>
+					</a>
+					<eq name="vo.post_status" value="trash"><span class="label label-default">回收站</span></eq>
+					<div class="btn-group pull-right">
+						<eq name="vo.post_status" value="trash">
+							<a href="__CONTROLLER__/moveToPublish/id/{$vo.post_id}" class="btn text-success">发布</a>
+						</eq>
+						<neq name="vo.post_status" value="trash">
+							<a href="__CONTROLLER__/moveToTrash/id/{$vo.post_id}" class="btn text-danger">移除</a>
+						</neq>
+						<a href="__CONTROLLER__/edit/id/{$vo.post_id}" class="btn">编辑</a>
+					</div>
+				</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+  </div> <!-- /container -->  
+<include file="Common:footer"/>

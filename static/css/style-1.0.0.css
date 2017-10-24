@@ -1,0 +1,44 @@
+body {
+  /*padding-top: 70px;*/
+}
+
+.post-list tr td .btn-group{
+	margin-top: -8px;
+	margin-bottom: -8px;
+}
+
+.editor-container-full{;
+	width: 100%;
+}
+.editor-container-full textarea{
+	width: 100%;
+}
+.pagination{
+	margin: 0 0 ;
+}
+
+.text-default{
+	color:#333;
+}
+
+.panel-sm{
+	max-width: 400px;
+}
+.doc-container{
+	max-width: 800px;
+	margin: 0 auto;
+}
+/*
+ * Footer
+ */
+
+.footer {
+  padding: 40px 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e5e5e5;
+}
+.footer a{
+	color:#999;
+}

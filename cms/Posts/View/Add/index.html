@@ -1,0 +1,82 @@
+<include file="Common:header"/>
+  <div class="container ">
+  	<div class="doc-container">
+	<form role="form" action="" method="post" enctype="multipart/form-data">
+		<div class="col-sm-12">
+			<div class="form-group">
+				<input type="text" placeholder="标题" name="title" class="form-control">
+			</div>
+			<div class="editor-container-full" style="width:100%;">
+				<textarea name="content" id="theEditor"></textarea>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<p><strong>发布至:</strong></p>
+					<p>
+						<select class="form-control" name="term">
+							<volist name="terms" id="vo">
+								<option value="{$vo.term_id}">{$vo.name}</option>
+							</volist>
+						</select>
+					</p>
+					<hr>
+					<p><strong>摘要:</strong></p>
+					<p><textarea name="excerpt" class="form-control" rows="3"></textarea></p>
+					<hr>
+					<p><strong>封面图片：</strong></p>
+					<p id="cover-container"></p>
+					<p>
+						<input id="file_upload" name="file_upload" type="file" multiple="true">
+						<input id="cover" name="cover" type="hidden">
+					</p>
+					<hr>
+					<button type="submit" class="btn btn-success btn-block">保存</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	</div>
+  </div> <!-- /container -->  
+  <!--UEditor-->
+  	 <script type="text/javascript" src="__STATIC__/um_1_0_0/umeditor.config.js"></script>
+	<script type="text/javascript" src="__STATIC__/um_1_0_0/umeditor.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/um_1_0_0/lang/zh-cn/zh-cn.js"></script>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/um_1_0_0/themes/default/css/umeditor.min.css">
+ <script type="text/javascript">
+    var editor = UM.getEditor('theEditor');
+    editor.queryCommandState( 'pasteplain');
+
+</script>
+
+<!--Uploadify-->
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/uploadify/uploadify.css" />
+<script type="text/javascript">
+		<?php $timestamp = time();?>
+		$(function() {
+			$('#file_upload').uploadify({
+				'formData'     : {
+					'timestamp' : '<?php echo $timestamp;?>',
+					'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+				},
+				'buttonImage' : '__STATIC__'+'/uploadify/browse-btn-03.png',
+				'swf'      : '__STATIC__'+'/uploadify/uploadify.swf',
+				'uploader' : '__MODULE__/Upload',
+				'onUploadSuccess' : function(file, data, response) {
+					var str = '<a href="javascript:void(0);" id="delete-cover" class="close btn text-danger" title="删除封面">&times;</a><img class="img-responsive img-rounded" src=__ROOT__/'+data+'>';
+					$("#cover-container").html(str);
+					$("#cover").val(data);
+				} 
+			});
+		});
+		$(document).ready(function(){
+			$("#delete-cover").click(function(){
+				$("#cover-container").html('');
+					$("#cover").val('');
+			});
+		});
+	</script>
+
+<include file="Common:footer"/>

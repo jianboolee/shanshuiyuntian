@@ -1,0 +1,184 @@
+<include file="Common:header"/>
+  <div class="container">
+	<form role="form" action="__CONTROLLER__/doSave" method="post" enctype="multipart/form-data">
+		<div class="col-xs-8">
+			<div class="form-group">
+				<input type="text" placeholder="标题" name="title" class="form-control" value="{$post.title}">
+			</div>
+			<div class="editor-container-full" style="width:100%;">
+				<textarea name="content" id="theEditor">{$post.content}</textarea>
+			</div>
+			<hr>
+			<div class="panel panel-default">
+				<div class="panel-heading">缩略图</div>
+				<div class="panel-body">
+					<div class="pictures-container row">
+						<volist name="post.pictures" id="picture">
+						<div class="col-xs-3 ">
+							<button type="button" class="close clear-picture">&times;</button>
+							<img class="img-responsive" src="__ROOT__/{$picture}">
+							<input type="hidden" name="pictures[]" value="{$picture}">
+						</div>
+						</volist>
+					</div>
+				</div>
+				<div class="panel-body">
+					<span class="btn btn-default fileinput-button">
+						<i class="glyphicon glyphicon-open"></i>
+						<span> 上传缩略图</span>
+						<input id="pictures-upload" type="file" name="files" >
+					</span>
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-xs-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">保存</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<select name="status" class="form-control">
+							<option value="publish" <eq name="post.status" value="publish"> selected="selected" </eq>  > 发布</option>
+							<option value="draft"  <neq name="post.status" value="publish"> selected="selected" </neq> > 草稿</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<input type="hidden" name="id" value="{$post.id}">
+						<button type="submit" class="btn btn-success btn-block">保存</button>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">	
+				<div class="panel-heading">封面图片</div>
+				
+				<div class="panel-body">
+					<div class="file-view">
+						<div id="cover-box" class="cover">
+							<neq name="post.cover" value="">
+								<button type="button" class="close clear-cover">&times;</button>
+								<img src="__ROOT__/{$post.cover}">
+								<input type="hidden" name="cover" value="{$post.cover}">
+							 </neq>
+						</div>
+					</div>
+
+					<span class="btn btn-default btn-block btn-lg fileinput-button">
+						<i class="glyphicon glyphicon-open"></i>
+						<span> 选择图片</span>
+						<input id="fileupload" type="file" name="files" >
+					</span>
+				</div>
+			</div>
+			<div class="panel panel-default">	
+			<div class="panel-heading">摘要</div>
+				<div class="panel-body">
+					<textarea name="excerpt" class="form-control" rows="3">{$post.excerpt}</textarea>
+				</div>
+			</div>
+			<div class="panel panel-default">	
+			<div class="panel-heading">分类</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<volist name="category" id="vo">
+						<div class="checkbox option-level-{$vo.level}">
+						<label  class="">
+							<input type="checkbox" name="category[]" value="{$vo.id}"
+							<volist name="post.category" id="cate"> <eq name="vo.id" value="$cate['id']">checked="checked"</eq> </volist>
+
+							> {$vo.name}
+						</label>
+						</div>
+						</volist>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="panel panel-default">	
+				<div class="panel-heading">访问文章时打开下面链接：</div>
+				<div class="panel-body">
+					<input type="text" class="form-control" name="redirect" value="{$post.redirect}">
+					<p class="help-block">例如：输入http://jianbo.me，当访问该内容时会在本页面显示它。</p>
+				</div>
+			</div> -->
+		</div>
+	</form>
+  </div> <!-- /container -->  
+<!--UEditor JS-->
+<script type="text/javascript" src="__STATIC__/um_1_0_0/umeditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/um_1_0_0/umeditor.min.js"></script>
+<script type="text/javascript" src="__STATIC__/um_1_0_0/lang/zh-cn/zh-cn.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/um_1_0_0/themes/default/css/umeditor.min.css">
+<script type="text/javascript">
+	var editor = UM.getEditor('theEditor');
+	editor.queryCommandState( 'pasteplain');
+</script>
+
+<!-- File upload js here-->
+<link rel="stylesheet" href="__STATIC__/css/jquery.fileupload.css">
+<script src="__STATIC__/js/vendor/jquery.ui.widget.js"></script>
+<script src="__STATIC__/js/jquery.iframe-transport.js"></script>
+<script src="__STATIC__/js/jquery.fileupload.js"></script>
+<script>
+$(function () {
+	'use strict';
+	var url = '__APP__/Admin/Upload/jqueryImageUpload';
+
+	//清除封面
+	$('#cover-box').on('click','.clear-cover',function(){
+		$('#cover-box').html('');
+	});
+
+	//删除图片
+	$('.pictures-container').on('click','.clear-picture',function(){
+		$(this).parent().remove();
+	});
+
+	//上传封面
+	$('#fileupload')
+		.fileupload({
+			url: url,
+			dataType: 'json',
+			done: function (e, data) {
+						var html = 	'<button type="button" class="close clear-cover">&times;</button>';
+							html += '<img src="__ROOT__/'+data.result.file.url+'">';
+							html += '<input type="hidden" name="cover" value="'+data.result.file.url+'">';
+						$('#cover-box').html(html);
+					},
+			progressall: function (e, data) {
+							var progress = parseInt(data.loaded / data.total * 100, 10);
+							$('#progress .progress-bar').css('width',progress + '%').text(progress+'%');
+						}
+				})
+		.prop('disabled', !$.support.fileInput)
+		.parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+
+	//
+	$('#pictures-upload')
+		.fileupload({
+			url: url,
+			dataType: 'json',
+			done: function (e, data) {
+						// var html = 	'<button type="button" class="close clear-cover">&times;</button>';
+						// 	html += '<img src="__ROOT__/'+data.result.file.url+'">';
+						// 	html += '<input type="hidden" name="cover" value="'+data.result.file.url+'">';
+						var html = '<div class="col-xs-3">';
+							html += '<button type="button" class="close clear-picture">&times;</button>';
+							html += '<img class="img-responsive" src="__ROOT__/'+data.result.file.url+'">';
+							html += '<input type="hidden" name="pictures[]" value="'+data.result.file.url+'">';
+							html += '</div>';
+						$('.pictures-container').append(html);
+				},
+		progressall: function (e, data) {
+						var progress = parseInt(data.loaded / data.total * 100, 10);
+						$('#progress .progress-bar').css('width',progress + '%').text(progress+'%');
+					}
+				})
+		.prop('disabled', !$.support.fileInput)
+		.parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+
+});
+
+</script>
+
+<include file="Common:footer"/>

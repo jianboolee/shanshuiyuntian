@@ -1,0 +1,36 @@
+<include file="Common:header"/>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<a href="__CONTROLLER__/add" class="btn btn-primary">添加分类</a>
+				<hr>
+			</div>
+			<div class="col-sm-12">
+			<div class="panel panel-default">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>分类名</th>
+							<th>别名</th>
+							<th class="td-sm">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="categorise" id="vo">
+						<tr>
+							<td><div class="category-level-{$vo.level}">{$vo.html}{$vo.name}</div></td>
+							<td >{$vo.slug}</td>
+							<td>
+								<a href="__CONTROLLER__/add/parent/{$vo.id}" class="btn btn-sm">添加子分类</a>
+								<a href="__CONTROLLER__/edit/id/{$vo.id}" class="btn btn-sm">编辑</a>
+								<a href="__CONTROLLER__/remove/id/{$vo.id}" class="btn btn-sm text-danger">删除</a>
+							</td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+			</div>
+			</div>
+		</div>
+	</div> <!-- /container -->	
+<include file="Common:footer"/>

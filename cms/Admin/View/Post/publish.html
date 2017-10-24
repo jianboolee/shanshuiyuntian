@@ -1,0 +1,31 @@
+<include file="Common:header"/>
+  <div class="container">
+	<div class="pull-right">
+		{$page}
+	</div>
+	<div class="btn-group">
+		<a href="__MODULE__/posts/add" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> 添加新文章</a>
+	</div>
+  	<div class="btn-group">	
+  		<a href="__CONTROLLER__" class="btn btn-default"><i class="glyphicon glyphicon-th-list"></i> 全部</a>
+  		<a href="__CONTROLLER__/Publish" class="btn btn-default active" ><i class="glyphicon glyphicon-th-list"></i> 已发布</a>
+  		<a href="__CONTROLLER__/Trash" class="btn btn-default"><i class="glyphicon glyphicon-trash"></i> 回收站</a>
+  	</div>
+  	<hr>
+	<table class="table table-hover table-bordered post-list">
+		<tbody>
+			<volist name="posts" id="vo">
+			<tr>
+				<td>
+					<a href="__CONTROLLER__/preview/id/{$vo.post_id}" class="text-default"><strong>{$vo.post_title}</strong></a>
+					<div class="btn-group pull-right">
+						<a href="__CONTROLLER__/moveToTrash/id/{$vo.post_id}" class="btn text-danger">废弃</a>
+						<a href="__CONTROLLER__/edit/id/{$vo.post_id}" class="btn">编辑</a>
+					</div>
+				</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+  </div> <!-- /container -->  
+<include file="Common:footer"/>

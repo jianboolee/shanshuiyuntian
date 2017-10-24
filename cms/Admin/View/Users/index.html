@@ -1,0 +1,61 @@
+<include file="Common:header"/>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">添加用户</div>
+					<div class="panel-body">
+						<form role="form" action="__CONTROLLER__/doAdd" method="post">
+							<div class="form-group">
+								<label for="term-name">邮箱:<span class="text-muted">(必填)</span></label>
+								<input type="email" class="form-control" name="email">
+							</div>
+							<div class="form-group">
+								<label for="term-slug">密码：<span class="text-muted">(必填)</span></label>
+								<input type="password" class="form-control" name="password">
+								<p class="help-block">密码长度不能小于6位</p>
+							</div>
+							<div class="form-group">
+								<label for="term-name">名字:<span class="text-muted">(必填)</span></label>
+								<input type="text" class="form-control" name="display_name">
+								<p class="help-block">名字长度不能小于2位</p>
+							</div>
+							<div class="form-group">
+								<label>
+									<input type="checkbox" name="group" value="1"> 设置为管理员
+								</label>
+							</div>
+							<button class="btn btn-block btn-success">添加</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>名字</th>
+							<th>邮箱</th>
+							<th>管理员</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="users" id="vo">
+						<tr>
+							<td>{$vo.display_name}</td>
+							<td>{$vo.user_email}</td>
+							<td><eq name="vo.user_group" value="1">是<else/>否</eq></td>
+							<td>
+								<a href="__CONTROLLER__/edit/id/{$vo.user_id}" class="btn btn-sm">编辑</a>
+								<neq name="vo.user_group" value="1"><a href="__CONTROLLER__/remove/id/{$vo.user_id}" class="btn btn-sm text-danger">删除</a></neq>
+							</td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</div> <!-- /container -->	
+<include file="Common:footer"/>

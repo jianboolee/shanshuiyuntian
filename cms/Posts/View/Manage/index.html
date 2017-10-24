@@ -1,0 +1,36 @@
+<include file="Common:header"/>
+  <div class="container">
+	<div class="btn-toolbar pull-right">
+		
+		<div class="btn-group">
+  		<a href="__MODULE__/Trash" class="btn btn-default"><i class="glyphicon glyphicon-trash"></i> 回收站</a>
+  	</div>
+	</div>
+	<div class="btn-group">
+		<a href="__MODULE__/Add" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> 添加新文章</a>
+	</div>
+  	
+  	<hr>
+	<table class="table table-hover table-bordered post-list">
+		<tbody>
+			<volist name="posts" id="vo">
+			<tr>
+				<td>
+					<neq name="vo.post_status" value="publish"><span class="text-muted">[草稿]</span></neq>
+					<a href="__CONTROLLER__/preview/id/{$vo.post_id}" class="text-default">
+					<eq name="vo.post_title" value=""><strong>未命名标题</strong></eq>
+					<strong>{$vo.post_title}</strong>
+					</a>
+					<div class="btn-group pull-right">
+						<a href="__CONTROLLER__/preview/id/{$vo.post_id}" class="btn">预览</a>
+						<a href="__MODULE__/Edit/{$vo.post_id}" class="btn">编辑</a>
+						<a href="__CONTROLLER__/moveToTrash/id/{$vo.post_id}" class="btn text-danger">移除</a>
+					</div>
+				</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<div class="page text-center">{$page}</div>
+  </div> <!-- /container -->  
+<include file="Common:footer"/>

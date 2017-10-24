@@ -1,0 +1,25 @@
+<include file="Common:header"/>
+  <div class="container">
+  	<div class="pull-right">
+		{$page}
+	</div>
+	<h4><i class="glyphicon glyphicon-trash"></i> 回收站</h4>
+  	<hr>
+	<table class="table table-hover table-bordered post-list">
+		<tbody>
+			<volist name="posts" id="vo">
+			<tr>
+				<td>
+					<a href="__CONTROLLER__/preview/id/{$vo.post_id}" class="text-default"><strong>{$vo.post_title}</strong></a>
+					<div class="btn-group pull-right">
+						<a href="__CONTROLLER__/remove/id/{$vo.post_id}" class="btn text-danger">删除</a>
+						<a href="__CONTROLLER__/moveToPublish/id/{$vo.post_id}" class="btn text-success">发布</a>
+						<a href="__CONTROLLER__/edit/id/{$vo.post_id}" class="btn">编辑</a>
+					</div>
+				</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+  </div> <!-- /container -->  
+<include file="Common:footer"/>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>{$site['name']}</title>
+		<meta charset="utf-8">
+    <meta Http-Equiv="Cache-Control" Content="no-cache">
+    <meta Http-Equiv="Pragma" Content="no-cache">
+    <meta Http-Equiv="Expires" Content="0"> 
+		<meta name="description" content="{$site['description']}">
+		<meta name="keyword" content="{$site['keyword']}">
+		<meta name="author" content="Jianbo.me">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/css/style-1.0.0.css">
+    <link rel="shortcut icon" href="favicon.ico">
+    <script src="__STATIC__/js/jquery1.11.1.min.js"></script>
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+
+ <!-- Fixed navbar -->
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="__MODULE__">{$site['name']}</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li <eq name="active" value="posts"> class="active" </eq> ><a href="__MODULE__/Post">内容管理</a></li>
+            <li <eq name="active" value="terms"> class="active" </eq> ><a href="__MODULE__/Category">分类管理</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+
+            <li <eq name="active" value="my"> class="active" </eq> ><a href="__APP__/Account/Profile" title="我的账号">{$current_user['display_name']}</a></li>
+            <li><a href="__APP__/Account/Logout" title="退出登录"><i class="glyphicon glyphicon-off"></i></a></li>
+          </ul>
+          
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>	
